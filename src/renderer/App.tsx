@@ -1,50 +1,29 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
-import './App.css';
+import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useState, Dispatch, SetStateAction, useEffect, useRef } from 'react';
 
-function Hello() {
-  return (
-    <div>
-      <div className="Hello">
-        <img width="200" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="folded hands">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
-    </div>
-  );
-}
+import './App.css';
+import { toast, ToastContainer } from 'react-toastify';
+import Home from './pages/Home';
+import ServerStatistics from './pages/ServerStatistics ';
+import FileManager from './pages/FileManager';
+
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
+    <>
+      <ToastContainer />
+      <Router>
+          <div className='text-center'>
+            {/* <Link className='btn btn-secondary' to={'/'}>Home</Link> */}
+            {/* <Link className='btn btn-secondary  mx-2' to={'/download'}>Download</Link> */}
+            {/* <Link className='btn btn-secondary' to={'/nodes'}>Nodes</Link> */}
+          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/statistics" element={<ServerStatistics />} />
+            <Route path="/files" element={<FileManager />} />
+          </Routes>
+      </Router>
+    </>  
   );
 }
