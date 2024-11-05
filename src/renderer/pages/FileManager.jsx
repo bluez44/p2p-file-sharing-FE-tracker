@@ -29,9 +29,9 @@ const FileManager = () => {
             <ul className='list-group list flex-grow-1'>
                 {files.map((file, index) => (
                 <li className='list-group-item d-flex justify-content-between align-items-center' key={index}>
-                    <div className='d-flex align-items-start flex-column gap-2'>
-                        <span className='d-inline-block'>Magnet text: {file.filename}</span>
-                        <span className='d-inline-block'>Ngày đăng tải: {file.uploadDate}</span>
+                    <div className='d-flex align-items-start flex-column gap-2 w-100'>
+                        <span className='d-inline-block text-start overflow-auto w-100'>Magnet text: {file.filename}</span>
+                        <span className='d-inline-block text-start overflow-auto w-100'>Ngày đăng tải: {file.uploadDate}</span>
                     </div>
 
                     <MyModal magnet_text={file.filename}></MyModal>

@@ -9,6 +9,8 @@ function MyModal({ magnet_text }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [isCopy, setIsCopy] = useState(false);
+
   const [res, setRes] = useState('')
 
   useEffect(() => {
@@ -38,9 +40,11 @@ function MyModal({ magnet_text }) {
             <p className='long-text'>{res}</p>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant={isCopy ? 'success' : 'primary'} onClick={() => {navigator.clipboard.writeText(res), setIsCopy(true)}}>{isCopy? 'Đã copy' : 'Copy torrent'}</Button>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Đóng
           </Button>
+
         </Modal.Footer>
       </Modal>
     </>
