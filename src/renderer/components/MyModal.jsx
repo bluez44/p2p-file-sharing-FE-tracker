@@ -3,19 +3,26 @@ import { Modal, Button } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import axios from '../api';
 
-function MyModal({ name, id}) {
+function MyModal({ magnet_text }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [information, setInformation] = useState([]);
+  const [res, setRes] = useState('')
 
   useEffect(() => {
-    axios.get('/posts/').then((response) => {
-          setInformation(response.data);
-        });
-  }, [])
+    axios.get('/stat/torrents/magnet', {
+      params: {
+        magnet_text: magnet_text
+      }
+    }).then((response) => {
+      console.log(response.data);
+      setRes(response.data);
+    }).catch((error) => {
+      console.error('Lỗi khi tải thể têp:', error);
+    })
+  })
 
   return (
     <>
@@ -23,19 +30,12 @@ function MyModal({ name, id}) {
           <Icon icon="ic:round-search" />
       </div>
 
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal fullscreen={true} show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>{name} - {id}</Modal.Title>
+          <Modal.Title>Magnet text: {magnet_text}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div style={{maxHeight: '300px', overflow: 'auto', fontSize: '12px'}}>
-            {information.map((item) => (
-              <div key={item.id}>
-                <p>{item.title}</p>
-                <p>{item.body}</p>
-              </div>
-            ))}
-          </div>
+            <p className='long-text'>{res}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

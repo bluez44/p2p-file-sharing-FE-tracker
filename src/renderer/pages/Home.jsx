@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useReducer, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import axios from '../api';
@@ -7,27 +7,45 @@ import ProgressBar from '../components/ProgressBar';
 import MyButton from '../components/MyButton';
 
 function Home() {
-  const [peers, setPeers] = useState([
-    { id: '1', ip: '127.0.0.1', status: 'Đang chạy', sharedParts: 0 },
-    { id: '2', ip: '127.0.0.1', status: 'Đang chạy', sharedParts: 0 },
-    { id: '3', ip: '127.0.0.1', status: 'Đang chạy', sharedParts: 0 },
-  ]);
+  const [peers, setPeers] = useState([]);
+  
+  const [filterPeers, setFilterPeers] = useState([]);
 
+  const [searchValue, setSearchValue] = useState('');
 
-  // const [testFiles, setTestFiles] = useState([]);
+  const [counter, setCounter] = useState(0);
 
-  // useEffect(() => {
-  //   axios.get('/posts').then((response) => {
-  //     setTestFiles(response.data);
-  //   });
-  // }, [])
+  const handleOnChange = (e) => {
+    setSearchValue(e.target.value);
+  }
 
+  useEffect(() => {
+    setFilterPeers(
+      peers.filter((peer) => {
+        return String(peer.port).includes(searchValue);
+      })
+    )
+    
+  }, [peers, searchValue])
 
-//   useEffect(() => {
-//     axios.get('/files').then((response) => {
-//       setFiles(response.data);
-//     });
-//   }, []);
+  useEffect(() => {
+    axios.get('/stat/peers')
+    .then((response) => {
+      setPeers(response.data);
+    })
+  }, [])
+
+  const handleOnClick = () => {
+    axios.get('/stat/peers')
+    .then((response) => {
+      setPeers(response.data);
+    })
+
+    setFilterPeers(...peers)
+    console.log(peers, counter)
+  }
+
+  console.log('RENDER')
 
   return (
     <Content>
@@ -36,17 +54,29 @@ function Home() {
           <Link className='link mb-4' to={'/statistics'}>Thống kê hệ thống</Link>
           <Link className='link mb-4' to={'/files'}>Quản lý file</Link>
         </div>
+        <input 
+          type="number"
+          className="form-control mb-2"
+          placeholder="Tìm kiếm theo port"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
         <ul className='list-group list flex-grow-1'>
-            {peers.map((peer) => (
-            <li className='list-group-item d-flex justify-content-between align-items-center' key={peer.id}>
-                <div className='d-flex align-items-start flex-column gap-2'>
-                  <span className='d-inline-block'>Ip: {peer.ip}</span>
-                  <span className='d-inline-block'>Shared Parts: {peer.sharedParts}</span>
-                  <span className='d-inline-block'>Status: {peer.status}</span>
-                </div>
-            </li>
-            ))}
+            {
+              !filterPeers.length 
+                ? <p>Không có peer phù hợp</p>
+                :
+              filterPeers.map((peer, index) => (
+              <li className='list-group-item d-flex justify-content-between align-items-center' key={index}>
+                  <div className='d-flex align-items-start flex-column gap-2'>
+                    <span className='d-inline-block'>Ip: {peer.ip}</span>
+                    <span className='d-inline-block'>Peer port: {peer.port}</span>
+                  </div>
+              </li>
+              ))
+            }
         </ul>
+        <button className='btn btn-primary mb-4 mt-4  ' onClick={handleOnClick}>Làm mới danh sách Peer</button>
     </Content>
   );
 }

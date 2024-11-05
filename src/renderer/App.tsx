@@ -13,11 +13,6 @@ export default function App() {
     <>
       <ToastContainer />
       <Router>
-          <div className='text-center'>
-            {/* <Link className='btn btn-secondary' to={'/'}>Home</Link> */}
-            {/* <Link className='btn btn-secondary  mx-2' to={'/download'}>Download</Link> */}
-            {/* <Link className='btn btn-secondary' to={'/nodes'}>Nodes</Link> */}
-          </div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/statistics" element={<ServerStatistics />} />

@@ -16,9 +16,7 @@ export default function Content({ children }) {
   
   return (
       <div className='text-center wrapper'>
-
           {children}
-
       </div>
   )
 }
