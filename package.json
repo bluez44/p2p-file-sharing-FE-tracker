@@ -1,5 +1,5 @@
 {
-  "name": "electron-react-boilerplate",
+  "name": "electron-torrent-tracker",
   "description": "A foundation for scalable desktop apps",
   "keywords": [
     "electron",
@@ -181,8 +181,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Torrent-tracker",
+    "appId": "org.erb.Torrent-tracker",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -241,8 +241,12 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "electron-torrent-tracker",
+      "repo": "electron-torrent-tracker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   },
   "collective": {
